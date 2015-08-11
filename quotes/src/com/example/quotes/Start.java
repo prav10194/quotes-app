@@ -24,7 +24,7 @@ public class Start extends Activity{
 	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 	            WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
-		setContentView(R.layout.layout);
+		setContentView(R.layout.new1layout);
 	
 	
 		
@@ -41,7 +41,7 @@ public class Start extends Activity{
 			}
 			finally{
 				
-				Intent myIntent = new Intent(Start.this, MainActivity.class);
+				Intent myIntent = new Intent(Start.this, MainActivity2.class);
 				Start.this.startActivity(myIntent);
 
 				

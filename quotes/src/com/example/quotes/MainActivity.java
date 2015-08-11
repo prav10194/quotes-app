@@ -11,6 +11,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.appengers.quotes.R;
 import com.example.quotes.SimpleGestureFilter.SimpleGestureListener;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -29,12 +33,37 @@ public class MainActivity extends Activity implements SimpleGestureListener{
 	  Cursor c;
 	  int n=0;
 	  String number,quote,name,episode;
-	
+	  private InterstitialAd interAd;
+	  
+	  public void displayInterstitial()
+		{
+			if(interAd.isLoaded())
+			{
+				interAd.show();
+			}
+		}
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout1);
+		
+		interAd= new InterstitialAd(this);
+		interAd.setAdUnitId("ca-app-pub-2026106398422810/6145094080");
+		//AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interAd.loadAd(adRequest);
+        
+        interAd.setAdListener(new AdListener() {
+			public void onAdLoaded() {
+				// Call displayInterstitial() function
+				displayInterstitial();
+			}
+		});
+		
+		
+		
 		  t1=(TextView)findViewById(R.id.quote);
 	 	  t2=(TextView)findViewById(R.id.name);
 	 	  //t4=(TextView)findViewById(R.id.episode);
@@ -120,6 +149,35 @@ public class MainActivity extends Activity implements SimpleGestureListener{
 		db.execSQL("insert into mytable8 values(76,'–Jerry Seinfeld','Forty is when you actually begin even deserving to be on stage telling people what you think.')");
 		db.execSQL("insert into mytable8 values(77,'–George Costanza','I hate asking for change. They always make a face. It is like asking them to donate a kidney.')");
 		
+		db.execSQL("insert into mytable8 values(78,'–George Costanza','I hate asking for change. They always make a face. It is like asking them to donate a kidney.')");
+		db.execSQL("insert into mytable8 values(79,'–Jerry Seinfeld','If you know what happened in the Mets game do not tell me, I taped it. Hello? ')");
+		db.execSQL("insert into mytable8 values(80,'','Jerry: Elaine, breaking up is like knocking over a Coke machine. You can not do it in one push; you gotta rock it back and forth a few times and thenit goes over.')");
+
+db.execSQL("insert into mytable8 values(81,'–Kramer','Yo Yo Ma.')");
+db.execSQL("insert into mytable8 values(82,'–Kramer','The cat - mrrreeeooowww - is out of the bag!')");
+db.execSQL("insert into mytable8 values(83,'–Gary Fogel','Good for you, Jack!')");
+db.execSQL("insert into mytable8 values(84,'–Elaine Benes','We do not know how long this will last. They are a very festive people.')");
+		db.execSQL("insert into mytable8 values(85,'–George Costanza','I am speechless. I have no speech.')");
+		db.execSQL("insert into mytable8 values(86,'','Elaine: Ugh, I hate people. Jerry: Yeah, they are the worst.')");
+		db.execSQL("insert into mytable8 values(87,'-Frank Costanza','George, festivus is your heritage!')");
+db.execSQL("insert into mytable8 values(88,'–Frank Costanza','I have been performing feats of strength all morning.')");
+db.execSQL("insert into mytable8 values(89,'–Kramer','I am on the Mexican, whoa oh oh, radio.')");
+db.execSQL("insert into mytable8 values(90,'','Jerry: George Costanza... Is getting *married*! Elaine: Get out!')");
+db.execSQL("insert into mytable8 values(91,'–Jerry Seinfeld','Let us watch them slice this fat bastard up.')");
+db.execSQL("insert into mytable8 values(92,'–Babu Bhatt','You very bad man, Jerry. Very bad man.')");
+db.execSQL("insert into mytable8 values(93,'','Elaine: Why does everything have to be so... jokey with you? Jerry: I am a comedian.')");
+db.execSQL("insert into mytable8 values(94,'','Elaine: Where is Kramer? Jerry: Who knows? it is like asking where is Waldo.')");
+db.execSQL("insert into mytable8 values(95,'','Jerry: I can feel his blood in my body, borrowing things from my blood.')");
+db.execSQL("insert into mytable8 values(96,'','George: Divorce is always hard. Especially on the kids. Course I am the result of my parents having stayed together so ya never know.')");
+db.execSQL("insert into mytable8 values(97,'','Jerry: A house in the Hamptons? George: Yeah. I figured since I was lying about my income for a couple of years, I could afford a fake house in the Hamptons.')");
+db.execSQL("insert into mytable8 values(98,'','Jerry: She is one of those low-talkers. You can not hear a word she’s saying! You’re always going ‘excuse me’, what was that?')");
+db.execSQL("insert into mytable8 values(99,'','Kramer: Moles — Freckles ugly cousin.')");
+db.execSQL("insert into mytable8 values(100,'','Kramer: You know what they say You do not sell the steak, you sell the sizzle.')");
+db.execSQL("insert into mytable8 values(101,'','Jerry: You will be stunned. Elaine: Stunned by soup? Jerry: You can not eat this soup standing up. Your knees buckle.')");
+
+db.execSQL("insert into mytable8 values(102,'','George: She is got a little Marissa Tomei thing going on. Jerry: Ah, too bad you have got a little George Costanza thing going on.')");
+db.execSQL("insert into mytable8 values(103,'','Jerry: Elaine, breaking up is like knocking over a Coke machine. You can not do it in one push; you gotta rock it back and forth a few times and thenit goes over.')");
+
 		  
 		 // Detect touched area 
          detector = new SimpleGestureFilter(this,this);
@@ -133,7 +191,7 @@ public class MainActivity extends Activity implements SimpleGestureListener{
 	 	 t1.setText(quote);
 	 	 t2.setText(name);
 	 	//t4.setText(episode);
-	 	 t5.setText(number+"- 75");
+	 	 t5.setText(number+"- 103");
 	 	Toast.makeText(this, "Swipe left or right to view the previous or next quote", Toast.LENGTH_LONG).show();
 	 	
 	
@@ -212,8 +270,26 @@ public class MainActivity extends Activity implements SimpleGestureListener{
 		
 			
 		case R.id.help:
-			Intent i2=new Intent("android.intent.action.ABOUT");
-			startActivity(i2);
+			Intent shareIntent =   
+			 new Intent(android.content.Intent.ACTION_SEND);  
+			  
+			//set the type  
+			shareIntent.setType("text/plain");  
+			  
+			//add a subject  
+			shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,   
+			 "Seinfeld Quotes App: ");  
+			  
+			//build the body of the message to be shared  
+			String shareMessage = "https://play.google.com/store/apps/details?id=com.appengers.quotes";
+			  
+			//add the message  
+			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,   
+			 shareMessage);  
+			  
+			//start the chooser for sharing  
+			startActivity(Intent.createChooser(shareIntent,   
+			 "Share the app via"));  
 			break;
 			
 //		case R.id.gesture:
@@ -247,7 +323,7 @@ public class MainActivity extends Activity implements SimpleGestureListener{
       switch (direction) {
       
       case SimpleGestureFilter.SWIPE_LEFT :
-      if(n==74)
+      if(n==103)
     	  Toast.makeText(this, "Can't go to next quote", Toast.LENGTH_SHORT).show();
       else
       {
@@ -269,7 +345,7 @@ public class MainActivity extends Activity implements SimpleGestureListener{
       break;
       case SimpleGestureFilter.SWIPE_DOWN :
       Random randomGenerator = new Random();
-      int randomInt = randomGenerator.nextInt(75);
+      int randomInt = randomGenerator.nextInt(103);
       n=randomInt;
       c.moveToPosition(n);
                                                      break;
@@ -286,7 +362,7 @@ public class MainActivity extends Activity implements SimpleGestureListener{
 	 t1.setText(quote);
  	 t2.setText(name);
  	 //t4.setText(episode);
- 	 t5.setText(number+" - 76");
+ 	 t5.setText(number+" - 103");
      }
       
      @Override
